@@ -1,0 +1,16 @@
+.header-custom {
+    background-color: #6f42c1;
+    color: white;
+    border: 2px;
+}
+
+.btn-custom {
+    background-color: #6f42c1;
+    color: white;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #59339d; 
+    color: white;
+}

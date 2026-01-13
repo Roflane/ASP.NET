@@ -1,0 +1,71 @@
+﻿@page
+@using ASP_NET_03._Razor_Pages_Product_Site.Models
+@model ASP_NET_03._Razor_Pages_Product_Site.Pages.ProductModel
+@{
+    var product = ViewData["Product"] as Product;
+}
+
+<link rel="stylesheet" href="custom.css">
+<div class="container mt-5">
+    @if (product is not null) {
+        <div class="card shadow-sm">
+            <div class="card-header header-custom text-white">
+                <h4 class="mb-0">📦 Product details</h4>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-bordered table-hover align-middle">
+                    <tbody>
+                        <tr>
+                            <th class="w-25">Id</th>
+                            <td>@product.Id</td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <td>@product.Name</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>@product.Description</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>
+                                <span class="badge bg-primary fs-6">
+                                    @product.Price $
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Count</th>
+                            <td>@product.Count</td>
+                        </tr>
+                        <tr>
+                            <th>Availability</th>
+                            <td>
+                                @if (product.IsAvailable)
+                                {
+                                    <span class="badge bg-primary">Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Not available</span>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a asp-page="/Products" class="btn btn-outline-secondary mt-3">
+                    ← Back to products
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center">
+            <h4 class="mb-0">No data found</h4>
+        </div>
+    }
+</div>
