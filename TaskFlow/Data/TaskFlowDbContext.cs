@@ -3,17 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ASP_NET_08._TaskFlow_DTOs.Data;
 
-public class TaskFlowDbContext : DbContext
-{
-    public TaskFlowDbContext(DbContextOptions options) 
-        : base(options)
-    {}
-
+public class TaskFlowDbContext(DbContextOptions options) : DbContext(options) {
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<TaskItem> TaskItems => Set<TaskItem>();
 
     // Fluent API
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

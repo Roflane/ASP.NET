@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+   // "TaskFlowDBConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=TaskFlowDB;Integrated Security=True;Trust Server Certificate=True;"
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
@@ -35,7 +36,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
 app.MapControllers();
 
+app.UseHttpsRedirection();
+app.Use(async (context, next) => {
+    if (context.Request.Path == "/") {
+        context.Response.Redirect("/swagger");
+        return;
+    }
+    await next();
+});
 app.Run();

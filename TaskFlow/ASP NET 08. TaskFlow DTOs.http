@@ -1,4 +1,4 @@
-@ASP_NET_08._TaskFlow_DTOs_HostAddress = http://localhost:5054
+@ASP_NET_08._TaskFlow_DTOs_HostAddress = http://localhost:5054/swagger
 
 GET {{ASP_NET_08._TaskFlow_DTOs_HostAddress}}/weatherforecast/
 Accept: application/json

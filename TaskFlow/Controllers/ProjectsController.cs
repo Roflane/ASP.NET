@@ -7,26 +7,17 @@ namespace ASP_NET_08._TaskFlow_DTOs.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProjectsController : ControllerBase
-{
-    private readonly IProjectService _projectService;
-
-    public ProjectsController(IProjectService projectService)
-    {
-        _projectService = projectService;
-    }
-
+public class ProjectsController(IProjectService projectService) : ControllerBase {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProjectResponseDto>>> GetAll()
-    {
-        var projects = await _projectService.GetAllAsync();
+    public async Task<ActionResult<IEnumerable<ProjectResponseDto>>> GetAll() {
+        var projects = await projectService.GetAllAsync();
         return Ok(projects);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectResponseDto>> GetById(int id)
     {
-        var project = await _projectService.GetByIdAsync(id);
+        var project = await projectService.GetByIdAsync(id);
         if (project is null) 
             return NotFound($"Project with ID {id} not found");
         return Ok(project);
@@ -36,7 +27,7 @@ public class ProjectsController : ControllerBase
     public async Task<ActionResult<ProjectResponseDto>> Create([FromBody] CreateProjectDto createProjectDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        var createdProject = await _projectService.CreateAsync(createProjectDto);
+        var createdProject = await projectService.CreateAsync(createProjectDto);
         return CreatedAtAction(
             nameof(GetById),
             new { id = createdProject.Id }, 
@@ -48,7 +39,7 @@ public class ProjectsController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var updatedProject = await _projectService.UpdateAsync(id, updateProjectDto);
+        var updatedProject = await projectService.UpdateAsync(id, updateProjectDto);
 
         if(updatedProject is null) return NotFound($"Project with ID {id} not found");
 
@@ -58,7 +49,7 @@ public class ProjectsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var isDeleted = await _projectService.DeleteAsync(id);
+        var isDeleted = await projectService.DeleteAsync(id);
 
         if (!isDeleted) return NotFound($"Project with ID {id} not found");
 

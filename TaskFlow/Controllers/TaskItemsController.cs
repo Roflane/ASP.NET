@@ -1,5 +1,4 @@
-﻿using ASP_NET_08._TaskFlow_DTOs.Models;
-using ASP_NET_08._TaskFlow_DTOs.Services;
+﻿using ASP_NET_08._TaskFlow_DTOs.DTOs.TaskItem_DTOs;
 using ASP_NET_08._TaskFlow_DTOs.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,45 +6,41 @@ namespace ASP_NET_08._TaskFlow_DTOs.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TaskItemsController : ControllerBase
-{
-    private readonly ITaskItemService _taskItemService;
-
-    public TaskItemsController(ITaskItemService taskItemService)
-    {
-        _taskItemService = taskItemService;
-    }
-
+public class TaskItemsController(ITaskItemService taskItemService) : ControllerBase {
+    // GET: api/TaskItems
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TaskItem>>> GetAll()
+    public async Task<ActionResult<IEnumerable<TaskItemResponseDto>>> GetAll()
     {
-        var tasks = await _taskItemService.GetAllAsync();
+        var tasks = await taskItemService.GetAllAsync();
         return Ok(tasks);
     }
 
+    // GET: api/TaskItems/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<TaskItem>> GetById(int id)
+    public async Task<ActionResult<TaskItemResponseDto>> GetById(int id)
     {
-        var task = await _taskItemService.GetByIdAsync(id);
+        var task = await taskItemService.GetByIdAsync(id);
         if (task is null) return NotFound($"Task with ID {id} not found");
         return Ok(task);
     }
 
+    // GET: api/TaskItems/project/3
     [HttpGet("project/{projectId}")]
-    public async Task<ActionResult<IEnumerable<TaskItem>>> GetByProjectId(int projectId)
+    public async Task<ActionResult<IEnumerable<TaskItemResponseDto>>> GetByProjectId(int projectId)
     {
-        var tasks = await _taskItemService.GetByProjectIdAsync(projectId);
+        var tasks = await taskItemService.GetByProjectIdAsync(projectId);
         return Ok(tasks);
     }
 
+    // POST: api/TaskItems
     [HttpPost]
-    public async Task<ActionResult<TaskItem>> Create([FromBody] TaskItem taskItem)
+    public async Task<ActionResult<TaskItemResponseDto>> Create([FromBody] CreateTaskItemDto dto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         try
         {
-            var task = await _taskItemService.CreateAsync(taskItem);
+            var task = await taskItemService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
         }
         catch (ArgumentException ex)
@@ -54,25 +49,23 @@ public class TaskItemsController : ControllerBase
         }
     }
 
+    // PUT: api/TaskItems/5
     [HttpPut("{id}")]
-
-    public async Task<ActionResult<TaskItem>> Update(int id, [FromBody] TaskItem taskItem)
+    public async Task<ActionResult<TaskItemResponseDto>> Update(int id, [FromBody] UpdateTaskItemDto dto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-
-        var task = await _taskItemService.UpdateAsync(id, taskItem);
-
+        var task = await taskItemService.UpdateAsync(id, dto);
         if (task is null) return NotFound($"Task with ID {id} not found");
 
         return Ok(task);
     }
 
+    // DELETE: api/TaskItems/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var isDeleted = await _taskItemService.DeleteAsync(id);
-
-        if (!isDeleted) return NotFound($"Project with ID {id} not found");
+        var isDeleted = await taskItemService.DeleteAsync(id);
+        if (!isDeleted) return NotFound($"Task with ID {id} not found");
 
         return NoContent();
     }

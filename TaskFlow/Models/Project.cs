@@ -1,7 +1,6 @@
 ﻿namespace ASP_NET_08._TaskFlow_DTOs.Models;
 
-public class Project
-{
+public class Project {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
