@@ -13,7 +13,7 @@ public class TaskItemService(TaskFlowDbContext context) : ITaskItemService {
         var projectExists = await context.Projects.AnyAsync(p => p.Id == dto.ProjectId);
         if (!projectExists) throw new ArgumentException($"Project with ID {dto.ProjectId} not found");
 
-        var task = TaskItemMapper.FromCreateDto(dto);
+        var task = TaskItemMapper.FromCreateDto(dto);   
 
         context.TaskItems.Add(task);
         await context.SaveChangesAsync();

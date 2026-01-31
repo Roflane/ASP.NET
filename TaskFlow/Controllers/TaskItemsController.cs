@@ -25,7 +25,7 @@ public class TaskItemsController(ITaskItemService taskItemService) : ControllerB
     }
 
     // GET: api/TaskItems/project/3
-    [HttpGet("project/{projectId}")]
+    [HttpGet("project/{projectId:int}")]
     public async Task<ActionResult<IEnumerable<TaskItemResponseDto>>> GetByProjectId(int projectId)
     {
         var tasks = await taskItemService.GetByProjectIdAsync(projectId);
@@ -36,17 +36,8 @@ public class TaskItemsController(ITaskItemService taskItemService) : ControllerB
     [HttpPost]
     public async Task<ActionResult<TaskItemResponseDto>> Create([FromBody] CreateTaskItemDto dto)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-
-        try
-        {
-            var task = await taskItemService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var task = await taskItemService.CreateAsync(dto);
+        return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
     }
 
     // PUT: api/TaskItems/5

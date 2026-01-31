@@ -2,6 +2,7 @@ using ASP_NET_08._TaskFlow_DTOs.Data;
 using ASP_NET_08._TaskFlow_DTOs.Services;
 using ASP_NET_08._TaskFlow_DTOs.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
    // "TaskFlowDBConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=TaskFlowDB;Integrated Security=True;Trust Server Certificate=True;"
 
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
-
+builder.Services.AddSwaggerGen(options => {
+        options.SwaggerDoc("v1", new OpenApiInfo {
+            Version = "v1",
+            Title = "XD",
+            Description = "XD",
+        });
+    }
+);
 var connectionString = builder
     .Configuration
     .GetConnectionString("TaskFlowDBConnectionString");
@@ -33,7 +40,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.MapOpenApi();
-}
+}       
 
 app.UseAuthorization();
 app.MapControllers();
