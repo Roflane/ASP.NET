@@ -1,9 +1,10 @@
+using System.Reflection;
 using InvoiceAPI.Db;
 using InvoiceAPI.Interfaces;
 using InvoiceAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
-
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -21,6 +22,10 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Invoice API",
         Description = "API for both customer and invoice"
     });
+    
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 });
 
 // Db
@@ -53,7 +58,7 @@ app.Use(async (context, next) =>
 
 app.UseRouting();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
+

@@ -7,7 +7,71 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceAPI.Services;
 
+/// <summary>
+/// Service for 'Invoice'
+/// </summary>
+/// <param name="ctx"></param>
 public class InvoiceService(InvoiceAPIContext ctx) : IInvoiceService {
+    public async Task<PagedResult<Invoice>> GetInvoicesAsync(InvoiceQueryDto query) {
+        IQueryable<Invoice> invoices = ctx.Invoices
+            .Include(i => i.Rows)
+            .Include(i => i.Customer)
+            .AsQueryable();
+
+        // filtering
+        if (!query.IncludeDeleted)
+            invoices = invoices.Where(i => i.DeletedAt == null);
+
+        if (query.CustomerId.HasValue)
+            invoices = invoices.Where(i => i.CustomerId == query.CustomerId);
+
+        if (query.Status.HasValue)
+            invoices = invoices.Where(i => i.Status == query.Status);
+
+        if (query.DateFrom.HasValue)
+            invoices = invoices.Where(i => i.CreatedAt >= query.DateFrom);
+
+        if (query.DateTo.HasValue)
+            invoices = invoices.Where(i => i.CreatedAt <= query.DateTo);
+
+        // sorting
+        invoices = query.SortBy.ToLower() switch
+        {
+            "startdate" => query.SortDirection == "asc"
+                ? invoices.OrderBy(i => i.StartDate)
+                : invoices.OrderByDescending(i => i.StartDate),
+
+            "enddate" => query.SortDirection == "asc"
+                ? invoices.OrderBy(i => i.EndDate)
+                : invoices.OrderByDescending(i => i.EndDate),
+
+            "status" => query.SortDirection == "asc"
+                ? invoices.OrderBy(i => i.Status)
+                : invoices.OrderByDescending(i => i.Status),
+
+            "updatedat" => query.SortDirection == "asc"
+                ? invoices.OrderBy(i => i.UpdatedAt)
+                : invoices.OrderByDescending(i => i.UpdatedAt),
+
+            _ => query.SortDirection == "asc"
+                ? invoices.OrderBy(i => i.CreatedAt)
+                : invoices.OrderByDescending(i => i.CreatedAt),
+        };
+
+        var totalCount = await invoices.CountAsync();
+
+        var items = await invoices
+            .Skip((query.Page - 1) * query.PageSize)
+            .Take(query.PageSize)
+            .ToListAsync();
+
+        return new PagedResult<Invoice> {
+            Page = query.Page,
+            PageSize = query.PageSize,
+            TotalCount = totalCount,
+            Items = items
+        };
+    }
     public async Task<Invoice> CreateInvoiceAsync(CreateInvoiceDto dto) {
         var invoice = new Invoice {
             CustomerId = dto.CustomerId,
@@ -27,8 +91,7 @@ public class InvoiceService(InvoiceAPIContext ctx) : IInvoiceService {
         return invoice;
     }
 
-    public async Task<Invoice?> UpdateInvoiceAsync(Invoice invoice)
-    {
+    public async Task<Invoice?> UpdateInvoiceAsync(Invoice invoice) {
         var existing = await ctx.Invoices.Include(i => i.Rows)
             .FirstOrDefaultAsync(i => i.Id == invoice.Id);
 
@@ -51,8 +114,7 @@ public class InvoiceService(InvoiceAPIContext ctx) : IInvoiceService {
         return existing;
     }
 
-    public async Task<bool> ChangeInvoiceStatusAsync(int invoiceId, EInvoiceStatus status)
-    {
+    public async Task<bool> ChangeInvoiceStatusAsync(int invoiceId, EInvoiceStatus status) {
         var invoice = await ctx.Invoices.FindAsync(invoiceId);
         if (invoice == null) return false;
 
@@ -63,8 +125,7 @@ public class InvoiceService(InvoiceAPIContext ctx) : IInvoiceService {
         return true;
     }
 
-    public async Task<bool> HardDeleteInvoiceAsync(int invoiceId)
-    {
+    public async Task<bool> HardDeleteInvoiceAsync(int invoiceId) {
         var invoice = await ctx.Invoices.FindAsync(invoiceId);
         if (invoice == null || invoice.Status != EInvoiceStatus.Created)
             return false;
@@ -74,8 +135,7 @@ public class InvoiceService(InvoiceAPIContext ctx) : IInvoiceService {
         return true;
     }
 
-    public async Task<bool> SoftDeleteInvoiceAsync(int invoiceId)
-    {
+    public async Task<bool> SoftDeleteInvoiceAsync(int invoiceId) {
         var invoice = await ctx.Invoices.FindAsync(invoiceId);
         if (invoice == null) return false;
 
@@ -84,16 +144,14 @@ public class InvoiceService(InvoiceAPIContext ctx) : IInvoiceService {
         return true;
     }
 
-    public async Task<List<Invoice>> GetAllInvoicesAsync()
-    {
+    public async Task<List<Invoice>> GetAllInvoicesAsync() {
         return await ctx.Invoices
             .Include(i => i.Rows)
             .Include(i => i.Customer)
             .ToListAsync();
     }
 
-    public async Task<Invoice?> GetInvoiceByIdAsync(int invoiceId)
-    {
+    public async Task<Invoice?> GetInvoiceByIdAsync(int invoiceId) {
         return await ctx.Invoices
             .Include(i => i.Rows)
             .Include(i => i.Customer)

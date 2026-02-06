@@ -7,8 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceAPI.Services;
 
+/// <summary>
+/// Service for 'Customer'
+/// </summary>
+/// <param name="ctx"></param>
 public class CustomerService(InvoiceAPIContext ctx) : ICustomerService {
-    public async Task<Customer> AddCustomerAsync(CreateCustomerDto dto) {
+    public async Task<Customer> CreateCustomerAsync(CreateCustomerDto dto) {
         var customer = new Customer {
             Name = dto.Name,
             Email = dto.Email,
@@ -18,6 +22,61 @@ public class CustomerService(InvoiceAPIContext ctx) : ICustomerService {
         await ctx.SaveChangesAsync();
         return customer;
     }
+    
+    public async Task<PagedResult<Customer>> GetCustomersAsync(CustomerQueryDto query)
+    {
+        IQueryable<Customer> customers = ctx.Customers
+            .Include(c => c.Invoices)
+            .AsQueryable();
+
+        // filtering
+        if (!query.IncludeDeleted)
+            customers = customers.Where(c => c.DeletedAt == null);
+
+        if (!string.IsNullOrWhiteSpace(query.Name))
+            customers = customers.Where(c =>
+                c.Name.ToLower().Contains(query.Name.ToLower()));
+
+        if (!string.IsNullOrWhiteSpace(query.Email))
+            customers = customers.Where(c =>
+                c.Email.ToLower().Contains(query.Email.ToLower()));
+
+        // sorting
+        customers = query.SortBy.ToLower() switch
+        {
+            "name" => query.SortDirection == "asc"
+                ? customers.OrderBy(c => c.Name)
+                : customers.OrderByDescending(c => c.Name),
+
+            "email" => query.SortDirection == "asc"
+                ? customers.OrderBy(c => c.Email)
+                : customers.OrderByDescending(c => c.Email),
+
+            "updatedat" => query.SortDirection == "asc"
+                ? customers.OrderBy(c => c.UpdatedAt)
+                : customers.OrderByDescending(c => c.UpdatedAt),
+
+            _ => query.SortDirection == "asc"
+                ? customers.OrderBy(c => c.CreatedAt)
+                : customers.OrderByDescending(c => c.CreatedAt),
+        };
+
+        var totalCount = await customers.CountAsync();
+
+        var items = await customers
+            .Skip((query.Page - 1) * query.PageSize)
+            .Take(query.PageSize)
+            .ToListAsync();
+
+        return new PagedResult<Customer>
+        {
+            Page = query.Page,
+            PageSize = query.PageSize,
+            TotalCount = totalCount,
+            Items = items
+        };
+    }
+    
 
     public async Task<Customer?> UpdateCustomerAsync(Customer customer)
     {

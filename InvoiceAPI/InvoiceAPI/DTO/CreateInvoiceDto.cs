@@ -2,9 +2,12 @@ using InvoiceAPI.Models;
 
 namespace InvoiceAPI.DTO;
 
-public class CreateInvoiceDto {
-    public Int32 CustomerId { get; set; }   
-    public Decimal TotalSum { get; set; }
-    public String? Comment { get; set; }
-    public List<InvoiceRow> Rows { get; set; } = new();
+public class CreateInvoiceDto
+{
+    public int CustomerId { get; set; }
+    public DateTimeOffset StartDate { get; set; }
+    public DateTimeOffset EndDate { get; set; }
+    public string? Comment { get; set; }
+
+    public List<InvoiceRowDto> Rows { get; set; } = new();
 }

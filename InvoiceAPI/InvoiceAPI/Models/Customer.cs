@@ -1,6 +1,9 @@
+using System.Text.Json.Serialization;
+
 namespace InvoiceAPI.Models;
 
 public class Customer {
+    
     public Int32 Id { get; set; }
     public String Name { get; set; } = String.Empty;
     public String? Address { get; set; }
@@ -10,5 +13,6 @@ public class Customer {
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? DeletedAt { get; set; }
 
-    public List<Invoice> Invoices { get; set; } = new();
+    [JsonIgnore]
+    public List<Invoice> Invoices { get; set; } = [];
 }

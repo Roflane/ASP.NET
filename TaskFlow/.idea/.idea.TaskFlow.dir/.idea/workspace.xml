@@ -7,12 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1fbfc09-857c-4ef1-b9f1-30b78d631685" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Controllers/TaskItemsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/TaskItemsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Folder.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Folder.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/TaskItemService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/TaskItemService.cs" afterDir="false" />
-    </list>
+    <list default="true" id="d1fbfc09-857c-4ef1-b9f1-30b78d631685" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,6 +89,7 @@
       <workItem from="1769765231268" duration="1761000" />
       <workItem from="1769783845314" duration="2527000" />
       <workItem from="1769853760338" duration="1458000" />
+      <workItem from="1769858201036" duration="122000" />
     </task>
     <servers />
   </component>

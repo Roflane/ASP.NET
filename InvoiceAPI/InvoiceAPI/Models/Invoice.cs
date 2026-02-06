@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using InvoiceAPI.Enums;
 
 namespace InvoiceAPI.Models;
@@ -9,7 +10,8 @@ public class Invoice {
     public DateTimeOffset StartDate { get; set; }
     public DateTimeOffset EndDate { get; set; }
     public List<InvoiceRow> Rows { get; set; } = new();
-    public Decimal TotalSum => Rows?.Sum(r => r.Sum) ?? 0;
+    
+    [NotMapped] public Decimal TotalSum => Rows?.Sum(r => r.Sum) ?? 0;
     public String? Comment { get; set; }
     public EInvoiceStatus Status { get; set; } = EInvoiceStatus.Created;
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;

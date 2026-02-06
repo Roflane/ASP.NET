@@ -4,10 +4,10 @@ using InvoiceAPI.Models;
 namespace InvoiceAPI.Interfaces;
 
 public interface ICustomerService {
-    Task<Customer> AddCustomerAsync(CreateCustomerDto customer);
+    Task<Customer> CreateCustomerAsync(CreateCustomerDto dto);
+    Task<PagedResult<Customer>> GetCustomersAsync(CustomerQueryDto query);
     Task<Customer?> UpdateCustomerAsync(Customer customer);
     Task<bool> SoftDeleteCustomerAsync(int customerId); 
     Task<bool> HardDeleteCustomerAsync(int customerId);
-    Task<List<Customer>> GetAllCustomersAsync();
     Task<Customer?> GetCustomerByIdAsync(int customerId);
 }
