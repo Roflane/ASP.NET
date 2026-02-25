@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>InvoiceAPI</name>
+    </assembly>
+    <members>
+        <member name="T:InvoiceAPI.Controllers.CustomersController">
+            <summary>
+            Controller for 'Customer'
+            </summary>
+            <param name="customerService"></param>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.CustomersController.#ctor(InvoiceAPI.Interfaces.ICustomerService)">
+            <summary>
+            Controller for 'Customer'
+            </summary>
+            <param name="customerService"></param>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.CustomersController.GetAll(InvoiceAPI.DTO.CustomerQueryDto)">
+            <summary>
+            Asynchronously gets all customers
+            </summary>
+            <returns>Paged result of customer</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.CustomersController.GetById(System.Int32)">
+            <summary>
+            Asynchronously gets customer by id
+            </summary>
+            <returns>Action result of customer</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.CustomersController.CreateAsync(InvoiceAPI.DTO.CreateCustomerDto)">
+            <summary>
+            Asynchronously creates customer by id
+            </summary>
+            <param name="dto">CreateCustomerDto object</param>
+            <returns>Action result of customer</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.CustomersController.UpdateAsync(System.Int32,InvoiceAPI.DTO.CreateCustomerDto)">
+            <summary>
+            Asynchronously updates the customer by CreateCustomerDto object and id
+            </summary>
+            <param name="id">Customer id</param>
+            <param name="dto">CreateCustomerDto object</param>
+            <returns>Action result of customer</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.CustomersController.HardDelete(System.Int32)">
+            <summary>
+            Asynchronously does hard delete of customer
+            </summary>
+            <param name="id">Customer id</param>
+            <returns>Action result of customer</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.CustomersController.SoftDelete(System.Int32)">
+            <summary>
+            Asynchronously does soft delete of customer
+            </summary>
+            <param name="id">Customer id</param>
+            <returns>Action result of customer</returns>
+        </member>
+        <member name="T:InvoiceAPI.Controllers.InvoiceController">
+            <summary>
+            Controller for 'Invoice'
+            </summary>
+            <param name="invoiceService"></param>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.InvoiceController.#ctor(InvoiceAPI.Interfaces.IInvoiceService)">
+            <summary>
+            Controller for 'Invoice'
+            </summary>
+            <param name="invoiceService"></param>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.InvoiceController.GetAll(InvoiceAPI.DTO.InvoiceQueryDto)">
+            <summary>
+            Asynchronously gets all invoices
+            </summary>
+            <returns>Paged result of invoice</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.InvoiceController.GetById(System.Int32)">
+            <summary>
+            Asynchronously gets invoice by id
+            </summary>
+            <param name="id">Invoice id</param>
+            <returns></returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.InvoiceController.CreateAsync(InvoiceAPI.DTO.CreateInvoiceDto)">
+            <summary>
+            Asynchronously creates invoice by CreateInvoiceDto object
+            </summary>
+            <param name="dto"></param>
+            <returns>Action result of invoice</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.InvoiceController.UpdateAsync(System.Int32,InvoiceAPI.DTO.CreateInvoiceDto)">
+            <summary>
+            Asynchronously updates the invoice by CreateInvoiceDto object and Invoice id
+            </summary>
+            <param name="id">Invoice id</param>
+            <param name="dto">CreateInvoiceDto object</param>
+            <returns>Action result of invoice</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.InvoiceController.ChangeStatus(System.Int32,InvoiceAPI.Enums.EInvoiceStatus)">
+            <summary>
+            Asynchronously changes invoice status
+            </summary>
+            <param name="id">Invoice id</param>
+            <param name="status">EInvoiceStatus</param>
+            <returns>IActionResult</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.InvoiceController.HardDelete(System.Int32)">
+            <summary>
+            Asynchronously does hard delete of invoice
+            </summary>
+            <param name="id">Invoice id</param>
+            <returns>IActionResult</returns>
+        </member>
+        <member name="M:InvoiceAPI.Controllers.InvoiceController.SoftDelete(System.Int32)">
+            <summary>
+            Asynchronously does hard delete of invoice
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:InvoiceAPI.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:InvoiceAPI.Migrations.RemoveTotalSumFromInvoice">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.RemoveTotalSumFromInvoice.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.RemoveTotalSumFromInvoice.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.RemoveTotalSumFromInvoice.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:InvoiceAPI.Migrations.Fix1">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.Fix1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.Fix1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.Fix1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:InvoiceAPI.Migrations.AddIdentityTables">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.AddIdentityTables.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.AddIdentityTables.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.AddIdentityTables.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:InvoiceAPI.Migrations.AddUser">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.AddUser.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.AddUser.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:InvoiceAPI.Migrations.AddUser.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:InvoiceAPI.Services.CustomerService">
+            <summary>
+            Service for 'Customer'
+            </summary>
+            <param name="ctx"></param>
+        </member>
+        <member name="M:InvoiceAPI.Services.CustomerService.#ctor(InvoiceAPI.Db.InvoiceAPIContext)">
+            <summary>
+            Service for 'Customer'
+            </summary>
+            <param name="ctx"></param>
+        </member>
+        <member name="T:InvoiceAPI.Services.InvoiceService">
+            <summary>
+            Service for 'Invoice'
+            </summary>
+            <param name="ctx"></param>
+        </member>
+        <member name="M:InvoiceAPI.Services.InvoiceService.#ctor(InvoiceAPI.Db.InvoiceAPIContext)">
+            <summary>
+            Service for 'Invoice'
+            </summary>
+            <param name="ctx"></param>
+        </member>
+    </members>
+</doc>
