@@ -106,4 +106,27 @@ public class InvoiceController(IInvoiceService invoiceService) : ControllerBase 
         if (!result) return NotFound();
         return NoContent();
     }
+    
+    /// <summary>
+    /// Asynchronously downloads invoice as PDF
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}/download-pdf")]
+    public async Task<IActionResult> DownloadPdf(int id) {
+        var result = await invoiceService.DownloadInvoiceAsPDF(id);
+    
+        if (result) {
+            var filePattern = $"Invoice_{id}_*.pdf";
+            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), filePattern);
+            var latestFile = files.OrderByDescending(f => f).FirstOrDefault();
+        
+            if (latestFile != null) {
+                var bytes = await System.IO.File.ReadAllBytesAsync(latestFile);
+                return File(bytes, "application/pdf", Path.GetFileName(latestFile));
+            }
+        }
+    
+        return NotFound();
+    }
 }
