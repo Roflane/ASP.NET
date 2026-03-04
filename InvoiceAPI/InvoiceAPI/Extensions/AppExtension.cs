@@ -8,8 +8,7 @@ public static class AppExtension {
         }
         app.UseHttpsRedirection();
 
-        app.Use(async (context, next) =>
-        {
+        app.Use(async (context, next) => {
             if (context.Request.Path == "/")
             {
                 context.Response.Redirect("/swagger");

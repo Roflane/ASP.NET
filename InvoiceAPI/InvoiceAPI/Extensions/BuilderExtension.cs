@@ -50,6 +50,7 @@ public static class BuilderExtension {
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IInvoiceService, InvoiceService>();
         builder.Services.AddScoped<ICustomerService, CustomerService>();
+        builder.Services.AddScoped<IInvoiceReportService, InvoiceReportService>();
         builder.Services.AddValidatorsFromAssemblyContaining<Program>();
         builder.Services.AddSwaggerGen(options => {
             options.SwaggerDoc("v1", new OpenApiInfo {

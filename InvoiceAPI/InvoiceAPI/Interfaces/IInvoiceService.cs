@@ -11,7 +11,6 @@ public interface IInvoiceService {
     Task<bool> ChangeInvoiceStatusAsync(int invoiceId, EInvoiceStatus status);
     Task<bool> HardDeleteInvoiceAsync(int invoiceId);
     Task<bool> SoftDeleteInvoiceAsync(int invoiceId);
-    Task<List<Invoice>> GetAllInvoicesAsync();
     Task<Invoice?> GetInvoiceByIdAsync(int invoiceId);
     Task<bool> DownloadInvoiceAsPDF(int invoiceId);
 }
